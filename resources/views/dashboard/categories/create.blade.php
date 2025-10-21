@@ -8,9 +8,9 @@
 @endsection
 @section('content')
 
-   <form action="{{route('categories.store')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('dashboard.categories.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
-  @include('dahboard.categories._form',['button_label'=>'Save'])
+    @include('dashboard.categories._form',['button_label'=>'Save'])
 </form>
 
 

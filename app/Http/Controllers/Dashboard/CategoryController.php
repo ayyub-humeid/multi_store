@@ -6,6 +6,7 @@ use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -29,7 +30,9 @@ class CategoryController extends Controller
         // ->when($status,function(Builder $builder) use($status) {
         //     $builder->where('status',$status);
         // })
-
+        if(Gate::denies('categories.index')){
+            abort(403);
+        }
 
         // ->paginate(1);
         // $categories = Category::active()->get() this is local scope | the globle scope alwase implement but the local we must to call it ;
@@ -58,16 +61,22 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        //    if(Gate::denies('categories.create')){
+        //     abort(403);
+        // }
         $parents= Category::all();
         $category = new Category();
         return view('dashboard.categories.create',compact('parents','category'));
     }
 
-    /**
+    /**0
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        //  if(Gate::denies('categories.create')){
+        //     abort(403);
+        // }
         $request->validate(Category::rules(),[
             'required'=> 'this field (:attribute) is required',
             'name.unique'=> 'this name is already exists'
@@ -83,10 +92,8 @@ class CategoryController extends Controller
            $data['image']  = $this->uploadImage($request);
         // //    $request
         // }
-
-
         Category::create($data);
-        return redirect()->route('categories.index')->with('success','Saved Successfully');
+        return redirect()->route('dashboard.categories.index')->with('success','Saved Successfully');
     }
 
     /**
@@ -102,6 +109,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+         if(Gate::denies('categories.edit')){
+            abort(403);
+        }
         // $category = Category::findOrFail($id);
         // if(!$category){
         //     return abort(404);
@@ -127,6 +137,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+         if(Gate::denies('categories.edit')){
+            abort(403);
+        }
         $request->validate(Category::rules($id),[
             'required'=> 'this field (:attribute) is required',
             // 'name.unigue'=> 'this name is already exists'
@@ -154,7 +167,7 @@ class CategoryController extends Controller
            $res= Storage::disk('public')->delete($old_image);
 
         }
-        return redirect()->route('categories.index')->with('success','Saved Successfully');
+        return redirect()->route('dashboard.categories.index')->with('success','Saved Successfully');
 
     }
 
@@ -163,13 +176,17 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        //  if(Gate::denies('categories.edit')){
+        //     abort(403);
+        // }
+        Gate::authorize('categories.delete' );
         // Category::destroy($id);
         $category = Category::findOrFail($id);
         $category->delete();
         // if($category->image){
         //     Storage::disk('public')->delete($category->image);
         // }
-        return redirect()->route('categories.index')->with('success','Deleted Successfully');
+        return redirect()->route('dashboard.categories.index')->with('success','Deleted Successfully');
 
     }
     public function trash(){
@@ -180,7 +197,7 @@ class CategoryController extends Controller
     public function restore(Request $request,$id){
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
-        return redirect()->route('categories.trash')->with('success','Restred Successfully!');
+        return redirect()->route('dashboard.categories.trash')->with('success','Restred Successfully!');
     }
     public function force_delete($id){
         $category = Category::onlyTrashed()->findOrFail($id);
@@ -188,7 +205,7 @@ class CategoryController extends Controller
          if($category->image){
             Storage::disk('public')->delete($category->image);
         }
-        return redirect()->route('categories.index')->with('success','Deleted Successfully forever !');
+        return redirect()->route('dashbard.categories.index')->with('success','Deleted Successfully forever !');
     }
     protected function uploadImage(Request $request){
         if(!$request->hasFile('image')){

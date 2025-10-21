@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
@@ -18,6 +19,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // \App\Models\Admin::factory(5)->create();
+        Admin::create([
+            'name'=> 'mohamed Humid',
+            'username'=>'moh_humeid7',
+            'email'=> 'moh@app.com',
+            'password'=> Hash::make(123456789),
+            'phone_number'=> '0595137707' ,
+            'is-super-admin'=>true
+        ]);
+        Admin::create([
+            'name'=> 'Ayyub Humid',
+            'username'=>'Ay_humeid7',
+            'email'=> 'ayyub@app.com',
+            'password'=> Hash::make(123456789),
+            'phone_number'=> '0592356462' ,
+            'is-super-admin'=>false
+        ]);
         // User::factory(10)->create();
 
         // User::factory()->create([
@@ -92,5 +110,13 @@ class DatabaseSeeder extends Seeder
         //             'store_id'=> ,
         //             'category_id'=> Category::inRandomOrder()->first()->id
         // ]);
+        //   User::create([
+        //     'name'=> 'Ayyub2',
+        //     'store_id',2,
+        //     'email'=>'ay@app.com',
+        //     'password'=>Hash::make(123456789),
+        //     'type'=>'admin'
+        // ]);
+
     }
 }
