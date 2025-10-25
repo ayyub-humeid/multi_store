@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return Auth::guard('sanctum')->user();
 });
 
-Route::apiResource('products',ProductController::class);
+Route::apiResource('products/hellowwwwwwwwwwwwwwwwwwwwwwwww',ProductController::class);
 
 Route::post('auth/access-tokens',[AccessTokensController::class,'store'])->middleware('guest:sanctum');
 Route::delete('auth/access-tokens/{token?}',[AccessTokensController::class,'destroy'])->middleware('auth:sanctum');

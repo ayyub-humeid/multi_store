@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/tiny-slider.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/glightbox.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbm0rcTX4FqO72_eSVB7nkCmMvjbNWn6A&callback=initMap" async defer></script> --}}
+
     @stack('styles')
 </head>
 

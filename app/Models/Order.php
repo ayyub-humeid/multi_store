@@ -64,10 +64,10 @@ class Order extends Model
             ->where('type', '=', 'shipping');
     }
 
-    // public function delivery()
-    // {
-    //     return $this->hasOne(Delivery::class);
-    // }
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class);
+    }
 
     protected static function booted()
     {

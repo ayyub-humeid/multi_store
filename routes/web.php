@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\Auth\SocialLoginController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Front\Auth\TwoFactorAuthentcationController;
-use App\Http\Controllers\Front\Auth\TwoFactorAuthenticationController;
-use App\Http\Controllers\Front\CartController;
-use App\Http\Controllers\Front\CheckoutController;
-use App\Http\Controllers\Front\CurrencyConverterController;
-use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\OrdersController;
-use App\Http\Controllers\Front\PaymentsController;
-use App\Http\Controllers\Front\ProductsController;
-use App\Http\Controllers\SocialController;
-use App\Http\Controllers\StripeWebhooksController;
 use App\Http\Middleware\SetAppLocale;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\OrdersController;
+use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\PaymentsController;
+use App\Http\Controllers\Front\ProductsController;
+use App\Http\Controllers\StripeWebhooksController;
+use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\Front\DeliveriesController;
+use App\Http\Controllers\Front\CurrencyConverterController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+use App\Http\Controllers\Front\Auth\TwoFactorAuthentcationController;
+use App\Http\Controllers\Front\Auth\TwoFactorAuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,12 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
     Route::post('checkout', [CheckoutController::class, 'store']);
 
     Route::get('auth/user/2fa',[TwoFactorAuthenticationController::class,'index'])->name('auth.2fa');
+    Route::get('/orders/{order}', [OrdersController::class, 'show'])
+    ->name('orders.show');
+    Route::get('deliveries/{delivery}', [DeliveriesController::class, 'show']);
+    // dd(csrf_token());
+    Route::put('deliveries/{delivery}', [DeliveriesController::class, 'update']);
+
 // });
 // require __DIR__.'/auth.php';
 
